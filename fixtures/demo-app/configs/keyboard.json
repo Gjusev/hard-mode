@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "runId": "demo-keyboard",
+  "appRevision": "unlabeled",
+  "target": { "baseURL": "http://127.0.0.1:3123" },
+  "journeyId": "demo-shell",
+  "steps": [
+    { "action": "navigate", "url": "/" },
+    { "action": "expect", "condition": "visible", "selector": ".tool", "timeoutMs": 3000 }
+  ],
+  "scenario": "keyboard",
+  "params": {
+    "focusTarget": ".tool",
+    "maxTabs": 8
+  }
+}

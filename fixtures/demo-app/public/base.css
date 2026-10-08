@@ -1,0 +1,44 @@
+/* Base styles shared by both variants. */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  color: #1c2430;
+  background: #f5f7fa;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 20px;
+  background: #ffffff;
+  border-bottom: 1px solid #d7dee8;
+}
+.project-name {
+  font-size: 20px;
+  margin: 0;
+}
+.layout {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+}
+.panel {
+  background: #ffffff;
+  border: 1px solid #d7dee8;
+  border-radius: 8px;
+  padding: 16px;
+}
+.panel h2 { margin-top: 0; font-size: 16px; }
+.task-list { list-style: none; margin: 0; padding: 0; }
+.task-list li {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e6ecf3;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.task-title { font-weight: 600; }
+.task-due { color: #52627a; white-space: nowrap; }
+.empty-state { color: #52627a; font-style: italic; }

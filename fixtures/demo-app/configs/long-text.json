@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "runId": "demo-long-text",
+  "appRevision": "unlabeled",
+  "target": { "baseURL": "http://127.0.0.1:3123" },
+  "journeyId": "demo-loaded",
+  "steps": [
+    { "action": "navigate", "url": "/" },
+    { "action": "expect", "condition": "visible", "selector": ".task-list li", "timeoutMs": 3000 },
+    { "action": "expect", "condition": "visible", "selector": ".tool", "timeoutMs": 1500 }
+  ],
+  "scenario": "long-text",
+  "params": {
+    "injections": [
+      { "selector": ".project-name" },
+      { "selector": ".task-title" }
+    ],
+    "seed": 7
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "runId": "demo-slow-network",
+  "appRevision": "unlabeled",
+  "target": { "baseURL": "http://127.0.0.1:3123" },
+  "journeyId": "demo-loaded",
+  "steps": [
+    { "action": "navigate", "url": "/" },
+    { "action": "expect", "condition": "visible", "selector": ".task-list li", "timeoutMs": 3000 },
+    { "action": "expect", "condition": "visible", "selector": ".tool", "timeoutMs": 1500 }
+  ],
+  "scenario": "slow-network",
+  "params": {
+    "routes": [
+      {
+        "urlPattern": "**/api/stats",
+        "mode": "fail",
+        "delayMs": 1500,
+        "status": 500,
+        "label": "stats endpoint failure"
+      }
+    ],
+    "settleMs": 3000
+  },
+  "expectations": [
+    {
+      "id": "stats-error-handled",
+      "condition": "text",
+      "selector": ".stats-body",
+      "contains": "unavailable",
+      "intent": "When the stats request fails, the app shows a fallback message instead of staying on Loading",
+      "withinMs": 5000
+    }
+  ]
+}

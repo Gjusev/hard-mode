@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Task Board — hard-mode demo app</title>
+  <link rel="stylesheet" href="/base.css">
+  <link rel="stylesheet" href="/variant.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1 class="project-name">Project: Demo</h1>
+    <div class="tools" id="tools"><!-- toolbar built by variant.js --></div>
+  </header>
+  <main class="layout">
+    <section class="panel stats-panel" aria-labelledby="stats-heading">
+      <h2 id="stats-heading">Stats</h2>
+      <div class="stats-body">Loading…</div>
+    </section>
+    <section class="panel tasks-panel" aria-labelledby="tasks-heading">
+      <h2 id="tasks-heading">Tasks</h2>
+      <ul class="task-list"></ul>
+      <p class="empty-state" hidden>No tasks yet. Create the first one.</p>
+    </section>
+  </main>
+  <script src="/variant.js"></script>
+</body>
+</html>

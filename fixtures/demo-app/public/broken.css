@@ -1,0 +1,22 @@
+/* BROKEN variant: deliberately fragile styling. */
+.project-name {
+  /* Long project names get clipped: fixed width, no wrapping allowed. */
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+}
+.layout {
+  /* Fixed two-column grid: overflows on narrow viewports. */
+  grid-template-columns: 360px 360px;
+}
+.task-title {
+  /* Long titles never wrap and push content out of the row. */
+  white-space: nowrap;
+}
+.tool {
+  padding: 6px 12px;
+  border: 1px solid #9db1c7;
+  border-radius: 4px;
+  background: #eef3f9;
+  cursor: pointer;
+}

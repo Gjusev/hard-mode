@@ -1,0 +1,23 @@
+/* FIXED variant: same app, resilient styling. */
+.project-name {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.layout {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+.task-title {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.tool {
+  padding: 6px 12px;
+  border: 1px solid #35597e;
+  border-radius: 4px;
+  background: #eef3f9;
+  cursor: pointer;
+}
+.tool:focus-visible {
+  outline: 3px solid #b34a00;
+  outline-offset: 2px;
+}

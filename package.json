@@ -1,0 +1,30 @@
+{
+  "name": "hard-mode",
+  "version": "0.1.0",
+  "description": "Local browser runner and agent skill that exercise a web app under repeatable UI stress scenarios and produce visual evidence.",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "hard-mode": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "playwright test",
+    "test:unit": "playwright test --project unit",
+    "test:e2e": "playwright test --project e2e",
+    "demo": "node fixtures/demo-app/server.mjs --port 3123"
+  },
+  "dependencies": {
+    "playwright": "^1.50.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.0",
+    "@types/node": "^24.19.1",
+    "typescript": "^5.7.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "runId": "demo-narrow-viewport",
+  "appRevision": "unlabeled",
+  "target": { "baseURL": "http://127.0.0.1:3123" },
+  "journeyId": "demo-loaded",
+  "steps": [
+    { "action": "navigate", "url": "/" },
+    { "action": "expect", "condition": "visible", "selector": ".task-list li", "timeoutMs": 3000 },
+    { "action": "expect", "condition": "visible", "selector": ".tool", "timeoutMs": 1500 }
+  ],
+  "scenario": "narrow-viewport",
+  "params": {
+    "viewportWidth": 360,
+    "viewportHeight": 800,
+    "textScale": 1.5
+  }
+}

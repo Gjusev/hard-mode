@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "runId": "demo-empty-data",
+  "appRevision": "unlabeled",
+  "target": { "baseURL": "http://127.0.0.1:3123" },
+  "journeyId": "demo-shell",
+  "steps": [
+    { "action": "navigate", "url": "/" },
+    { "action": "expect", "condition": "visible", "selector": ".tool", "timeoutMs": 3000 }
+  ],
+  "scenario": "empty-data",
+  "params": {
+    "routes": [
+      {
+        "urlPattern": "**/api/tasks",
+        "mode": "fulfill",
+        "body": { "tasks": [] },
+        "label": "empty tasks list — valid shape for this API"
+      }
+    ],
+    "contentRegions": [
+      { "selector": ".task-list", "emptyIndicator": ".empty-state" }
+    ],
+    "settleMs": 400
+  },
+  "expectations": [
+    {
+      "id": "empty-state-shown",
+      "condition": "visible",
+      "selector": ".empty-state",
+      "intent": "When the API returns an empty list, the app shows its empty state",
+      "withinMs": 2000
+    }
+  ]
+}
