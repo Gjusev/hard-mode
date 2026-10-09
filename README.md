@@ -1,10 +1,16 @@
 # Hard Mode
 
-Your beautiful demo meets real life.
+> Your beautiful demo meets real life.
 
 hard-mode is a local testing tool for web apps. A Playwright runner drives your running app through five uncomfortable but ordinary situations, records what happens, and keeps the evidence: screenshots, pixel measurements, focus traces. When you fix something, you rerun the exact same configuration and get a before/after comparison.
 
 Everything runs on your machine. The runner never edits your app's code and sends nothing anywhere.
+
+![Report gallery: two confirmed findings on the synthetic demo app, each with what was expected, what was observed, and how it was measured](assets/report-gallery.png)
+
+That is a real report from `npm run demo`: a synthetic app whose header clips long titles and whose "Export" control is a `div`, so keyboard users can never reach it. The report says what was measured, not what to feel about it. Fix the app, rerun the identical config, and the comparison tells you what changed:
+
+![Before/after comparison: same scenario and inputs, the broken build left, the fixed build right, findings marked resolved](assets/compare.png)
 
 ## The five scenarios
 
@@ -30,7 +36,7 @@ npx playwright install chromium
 npm run demo
 ```
 
-The demo is a synthetic app with a deliberately broken build and a fixed build, served from the same URLs. The script runs a scenario against the broken build, applies the fix, reruns the identical config, and prints where the report and the before/after comparison landed. Open both in a browser. You can pass any scenario id: `npm run demo keyboard`.
+The demo runs a scenario against the broken build of the synthetic app, applies the fix, reruns the identical config, and prints where the report and the comparison landed. You can pass any scenario id: `npm run demo keyboard`.
 
 ## Using it on your own app
 
@@ -65,7 +71,7 @@ npm run demo        # end-to-end demo on the synthetic app
 
 The suite covers every scenario against a broken control and a fixed control (no invented findings), reproduction from a saved config, comparison with identity checks, infrastructure-error classification, HTML escaping of hostile app text, keyboard operability and narrow-screen behavior of the report itself, and a second sample app with a completely different structure.
 
-Fixtures are two small synthetic apps (`fixtures/demo-app`, `fixtures/second-app`) with `broken` and `fixed` variants served from the same URLs. No real user data is involved anywhere.
+The screenshots above come from the synthetic demo apps (`fixtures/demo-app`, `fixtures/second-app`), which ship with deliberately `broken` and `fixed` builds served from the same URLs. No real user data is involved anywhere.
 
 ## Scope and limits
 
