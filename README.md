@@ -1,7 +1,7 @@
 # Hard Mode
 
 <p align="center">
-  <img src="assets/social-preview.jpg" alt="Hard Mode — browser evidence under pressure" width="100%">
+  <img src="assets/social-preview.jpg" alt="Hard Mode: browser evidence under pressure" width="100%">
 </p>
 
 <p align="center"><sub><strong>GJUSEV / FIELD TOOL 01</strong> &nbsp;·&nbsp; BROWSER EVIDENCE UNDER PRESSURE</sub></p>
@@ -28,7 +28,7 @@ flowchart LR
 
 | Before using Hard Mode | After the same scenario is rerun |
 | --- | --- |
-| “The page looks fine on my screen.” | A report records that the long title clipped, where it clipped, and the screenshot that proves it. |
+| "The page looks fine on my screen." | A report records that the long title clipped, where it clipped, and the screenshot that proves it. |
 | A `div` styled like an Export button looks clickable. | The keyboard trace shows the control is unreachable; after the fix the same trace resolves the finding. |
 
 ![Report gallery: two confirmed findings on the synthetic demo app, each with what was expected, what was observed, and how it was measured](assets/report-gallery.png)
