@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "runId": "notes-long-text",
+  "appRevision": "unlabeled",
+  "target": { "baseURL": "http://127.0.0.1:3124" },
+  "journeyId": "notes-loaded",
+  "steps": [
+    { "action": "navigate", "url": "/" },
+    { "action": "expect", "condition": "visible", "selector": ".notes-body tr", "timeoutMs": 3000 }
+  ],
+  "scenario": "long-text",
+  "params": {
+    "injections": [
+      { "selector": ".notebook-title" },
+      { "selector": "td.note-body" }
+    ],
+    "seed": 11
+  }
+}

@@ -1,0 +1,11 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, sans-serif; color: #232323; background: #faf8f4; }
+.notebook-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 14px 18px; background: #3e3a33; color: #f5f1e8;
+}
+.notebook-title { font-size: 18px; margin: 0; }
+.notes-table { width: 100%; border-collapse: collapse; background: #fff; }
+.notes-table th, .notes-table td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #e5e0d5; }
+.notes-table th { background: #f0ece2; }
+.empty-note { color: #6b6459; font-style: italic; padding: 0 18px; }

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "runId": "notes-keyboard",
+  "appRevision": "unlabeled",
+  "target": { "baseURL": "http://127.0.0.1:3124" },
+  "journeyId": "notes-shell",
+  "steps": [
+    { "action": "navigate", "url": "/" },
+    { "action": "expect", "condition": "visible", "selector": ".primary-action", "timeoutMs": 3000 }
+  ],
+  "scenario": "keyboard",
+  "params": {
+    "focusTarget": ".primary-action",
+    "maxTabs": 8
+  }
+}

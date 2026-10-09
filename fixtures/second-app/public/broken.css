@@ -1,0 +1,12 @@
+/* BROKEN variant. */
+.notebook-title {
+  white-space: nowrap;
+  max-width: 160px;
+  overflow: hidden;
+}
+.primary-action {
+  padding: 5px 10px;
+  border: 1px solid #b8ab8f;
+  background: #efe6d2;
+  cursor: pointer;
+}

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "runId": "notes-empty-data",
+  "appRevision": "unlabeled",
+  "target": { "baseURL": "http://127.0.0.1:3124" },
+  "journeyId": "notes-shell",
+  "steps": [
+    { "action": "navigate", "url": "/" },
+    { "action": "expect", "condition": "visible", "selector": ".primary-action", "timeoutMs": 3000 }
+  ],
+  "scenario": "empty-data",
+  "params": {
+    "routes": [
+      {
+        "urlPattern": "**/api/notes",
+        "mode": "fulfill",
+        "body": { "notes": [] },
+        "label": "empty notebook — valid shape for this API"
+      }
+    ],
+    "contentRegions": [
+      { "selector": ".notes-body", "emptyIndicator": ".empty-note" }
+    ]
+  },
+  "expectations": [
+    {
+      "id": "empty-note-shown",
+      "condition": "visible",
+      "selector": ".empty-note",
+      "intent": "An empty notebook shows its empty state",
+      "withinMs": 2000
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+/* FIXED variant. */
+.notebook-title {
+  overflow-wrap: anywhere;
+  min-width: 0;
+}
+.primary-action {
+  padding: 5px 10px;
+  border: 1px solid #f5f1e8;
+  background: #efe6d2;
+  cursor: pointer;
+}
+.primary-action:focus-visible {
+  outline: 3px solid #ffd24d;
+  outline-offset: 2px;
+}

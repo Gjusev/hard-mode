@@ -13,11 +13,11 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "playwright test",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.test.json --noEmit",
+    "test": "npm run build && playwright test",
     "test:unit": "playwright test --project unit",
-    "test:e2e": "playwright test --project e2e",
-    "demo": "node fixtures/demo-app/server.mjs --port 3123"
+    "test:e2e": "npm run build && playwright test --project e2e",
+    "demo": "node scripts/demo.mjs"
   },
   "dependencies": {
     "playwright": "^1.50.0"

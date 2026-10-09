@@ -92,6 +92,10 @@ async function main(): Promise<number> {
       if (!a || !b || rest.length > 2) usage();
       const runA = loadRunDir(a);
       const runB = loadRunDir(b);
+      if (path.resolve(a) === path.resolve(b)) {
+        console.error("error: cannot compare a run with itself; point at two different run directories");
+        return EXIT.compareMismatch;
+      }
       const identity = compareIdentity(runA, runB);
       if (!identity.ok) {
         console.error(`error: ${identity.reason}`);

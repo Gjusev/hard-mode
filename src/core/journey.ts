@@ -57,7 +57,7 @@ async function runStep(page: Page, step: JourneyStep, stepMs: number, config: Ru
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
         // net::ERR_CONNECTION_REFUSED etc. is infrastructure, not "app broken".
-        if (/ERR_CONNECTION|ERR_NAME|ERR_ADDRESS|ERR_ACCESS|net::|Timeout 30000|ERR_TIMED_OUT/i.test(message)) {
+        if (/ERR_CONNECTION|ERR_NAME|ERR_ADDRESS|ERR_ACCESS|ERR_TIMED_OUT|net::|Timeout \d+ms exceeded/i.test(message)) {
           throw new JourneyError(`navigation to ${url} failed: ${firstLine(message)}`, "navigation");
         }
         throw err;
