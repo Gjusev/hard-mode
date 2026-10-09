@@ -1,10 +1,11 @@
 {
   "name": "hard-mode",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Local browser runner and agent skill that exercise a web app under repeatable UI stress scenarios and produce visual evidence.",
   "license": "MIT",
   "type": "module",
   "files": [
+    ".claude-plugin",
     "dist",
     "skills",
     "fixtures",

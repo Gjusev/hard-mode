@@ -9,7 +9,7 @@
       "name": "hard-mode",
       "source": ".",
       "description": "Local Playwright runner + agent skill that tests a web app under difficult UI scenarios with reproducible evidence.",
-      "version": "0.1.0"
+      "version": "0.1.1"
     }
   ]
 }
