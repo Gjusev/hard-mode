@@ -1,5 +1,11 @@
 # Hard Mode
 
+<p align="center">
+  <img src="assets/social-preview.jpg" alt="Hard Mode — browser evidence under pressure" width="100%">
+</p>
+
+<p align="center"><sub><strong>GJUSEV / FIELD TOOL 01</strong> &nbsp;·&nbsp; BROWSER EVIDENCE UNDER PRESSURE</sub></p>
+
 > Your beautiful demo meets real life.
 
 hard-mode is a local testing tool for web apps. A Playwright runner drives your running app through five uncomfortable but ordinary situations, records what happens, and keeps the evidence: screenshots, pixel measurements, focus traces. When you fix something, you rerun the exact same configuration and get a before/after comparison.
