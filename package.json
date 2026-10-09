@@ -36,5 +36,14 @@
     "@types/node": "^24.19.1",
     "axe-core": "^4.14.0",
     "typescript": "^5.7.0"
-  }
+  },
+  "keywords": [
+    "playwright",
+    "testing",
+    "e2e",
+    "ui",
+    "accessibility",
+    "chaos",
+    "agent-skills"
+  ]
 }
