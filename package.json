@@ -5,6 +5,14 @@
   "license": "MIT",
   "private": true,
   "type": "module",
+  "files": [
+    "dist",
+    "skills",
+    "fixtures",
+    "scripts",
+    "README.md",
+    "LICENSE"
+  ],
   "engines": {
     "node": ">=20"
   },
