@@ -84,6 +84,9 @@ requests pass through.
 
 - `mode: "delay"` holds the real response for `delayMs` and then passes it
   through; `mode: "fail"` answers with `status` after `delayMs`.
+- The runner raises the scenario budget automatically when the configured
+  delay window needs more than `timeouts.scenarioMs`: a legitimate delay is
+  never reported as an infrastructure failure.
 - Loading-like text still on screen after the settle window → needs_review.
   The confirmed verdict comes from declared expectations (e.g. fallback
   message visible, retry button present).

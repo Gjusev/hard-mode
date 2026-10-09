@@ -1,7 +1,7 @@
 // Scenario 1 — long-text: inject long text at DECLARED points only.
 // We never rewrite the whole DOM: replacing everything produces artificial
 // failures unrelated to the app's actual components.
-import { measureOverflow, judgeOverflow } from "../detectors/overflow.js";
+import { judgeOverflow } from "../detectors/overflow.js";
 import type { ScenarioContext, ScenarioDef } from "./types.js";
 
 const WORDS = [
@@ -50,29 +50,54 @@ export const longTextScenario: ScenarioDef = {
     const injections = ctx.params.injections ?? [];
     if (injections.length === 0) throw new Error("no injections declared");
     for (const [i, injection] of injections.entries()) {
-      const locator = ctx.page.locator(injection.selector).nth(injection.nth ?? 0);
+      const nth = injection.nth ?? 0;
+      const label = `${injection.selector}${nth ? ` (nth ${nth})` : ""}`;
+      const locator = ctx.page.locator(injection.selector).nth(nth);
       const count = await locator.count();
       if (count === 0) {
         ctx.signals.push({
           detector: "injection",
-          target: injection.selector,
+          target: label,
           type: "not_applicable",
-          summary: `selector ${injection.selector} (nth ${injection.nth ?? 0}) does not match any element; nothing was injected`,
+          summary: `selector ${label} does not match any element; nothing was injected`,
           method: "DOM querySelector via Playwright locator count",
         });
         continue;
       }
       const text = injection.text ?? longText(seed + i);
       const before = (await locator.textContent()) ?? "";
-      await locator.evaluate((el, value) => { el.textContent = value; }, text);
+      // Measure the very element we injected into (nth-aware), plus the
+      // document-level numbers from a neutral probe.
+      const geometry = await locator.evaluate((el, value) => {
+        el.textContent = value;
+        const cs = getComputedStyle(el);
+        const r = el.getBoundingClientRect();
+        const doc = document.documentElement;
+        return {
+          overflowX: cs.overflowX,
+          display: cs.display,
+          rect: { left: r.left, top: r.top, width: r.width, height: r.height, right: r.right, bottom: r.bottom },
+          scrollWidth: el.scrollWidth, clientWidth: el.clientWidth,
+          scrollHeight: el.scrollHeight, clientHeight: el.clientHeight,
+          viewportWidth: window.innerWidth, viewportHeight: window.innerHeight,
+          documentScrollWidth: doc.scrollWidth, documentClientWidth: doc.clientWidth,
+        };
+      }, text);
       // Register exactly where and how text was replaced.
-      ctx.signals.note(`injected ${text.length} chars into ${injection.selector} (nth ${injection.nth ?? 0}), replacing ${before.trim().length} chars`);
-      const measurement = await measureOverflow(ctx.page, injection.selector);
+      ctx.signals.note(`injected ${text.length} chars into ${label}, replacing ${before.trim().length} chars`);
+      const measurement = {
+        selector: label, found: true, visible: geometry.display !== "none" && geometry.rect.width > 0,
+        rect: geometry.rect, scrollWidth: geometry.scrollWidth, clientWidth: geometry.clientWidth,
+        scrollHeight: geometry.scrollHeight, clientHeight: geometry.clientHeight,
+        overflowX: geometry.overflowX, overflowY: "",
+        viewportWidth: geometry.viewportWidth, viewportHeight: geometry.viewportHeight,
+        documentScrollWidth: geometry.documentScrollWidth, documentClientWidth: geometry.documentClientWidth,
+      };
       const verdict = judgeOverflow(measurement, tolerance);
       if (verdict) {
         ctx.signals.push({
           detector: "overflow",
-          target: injection.selector,
+          target: label,
           type: verdict.confirmed ? "confirmed" : "needs_review",
           summary: verdict.summary,
           method: verdict.method,

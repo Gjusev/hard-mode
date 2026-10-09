@@ -35,6 +35,13 @@ export const slowNetworkScenario: ScenarioDef = {
   contextOptions() {
     return {};
   },
+  minBudgetMs(params) {
+    // Journey + delay + settle window + render allowance: a configured delay
+    // must never turn into a "budget exceeded" infrastructure error.
+    const maxDelay = Math.max(0, ...(params.routes ?? []).map((r) => r.delayMs ?? 0));
+    const settle = params.settleMs ?? Math.min(maxDelay + 1500, 15000);
+    return settle + 10000;
+  },
   async beforeJourney(ctx: ScenarioContext) {
     const matches: Record<string, number> = {};
     ctx.store.routeMatches = matches;

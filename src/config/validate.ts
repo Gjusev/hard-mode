@@ -13,6 +13,10 @@ import {
 
 const ACTIONS = new Set(["navigate", "click", "fill", "press", "expect"]);
 const CONDITIONS = new Set(["visible", "hidden", "text", "url"]);
+const TOP_LEVEL_KEYS = new Set([
+  "schemaVersion", "runId", "appRevision", "target", "journeyId", "steps",
+  "scenario", "params", "viewport", "timeouts", "expectations", "output", "capture",
+]);
 const KEYS = new Set([
   "Tab", "Enter", "Escape", "ArrowDown", "ArrowUp", "ArrowLeft", "ArrowRight",
   "Home", "End", "PageUp", "PageDown", "Backspace", "Delete", "Space",
@@ -20,10 +24,16 @@ const KEYS = new Set([
 
 export function validateRunConfig(raw: unknown): { config: RunConfig | null; errors: string[] } {
   const errors: string[] = [];
-  if (typeof raw !== "object" || raw === null) {
+  if (typeof raw !== "object" || raw === null || Array.isArray(raw)) {
     return { config: null, errors: ["config must be a JSON object"] };
   }
   const c = raw as Record<string, unknown>;
+
+  for (const key of Object.keys(c)) {
+    if (!TOP_LEVEL_KEYS.has(key)) {
+      errors.push(`unknown top-level key "${key}"; allowed: ${[...TOP_LEVEL_KEYS].join(", ")}`);
+    }
+  }
 
   if (c.schemaVersion !== SCHEMA_VERSION) {
     errors.push(`schemaVersion must be ${SCHEMA_VERSION}`);

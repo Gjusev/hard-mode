@@ -19,6 +19,13 @@ body {
   font-size: 20px;
   margin: 0;
 }
+.task-filter {
+  padding: 6px 10px;
+  border: 1px solid #9db1c7;
+  border-radius: 4px;
+  font: inherit;
+  min-width: 0;
+}
 .layout {
   display: grid;
   gap: 16px;
@@ -38,6 +45,10 @@ body {
   display: flex;
   justify-content: space-between;
   gap: 12px;
+}
+/* display:flex above would override the UA's [hidden] rule; restore it. */
+.task-list li[hidden] {
+  display: none;
 }
 .task-title { font-weight: 600; }
 .task-due { color: #52627a; white-space: nowrap; }

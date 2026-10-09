@@ -32,7 +32,7 @@ export const BASE_CSS = `
   --surface: #ffffff;
   --ink: #1b2532;
   --ink-2: #52627a;
-  --ink-3: #7a889c;
+  --ink-3: #64748b;
   --line: #d9e1ea;
   --line-soft: #e8eef5;
   --header-ink: #f4f7fb;
@@ -65,6 +65,7 @@ code {
   border-radius: 4px;
   padding: 1px 5px;
   overflow-wrap: anywhere;
+  unicode-bidi: isolate;
 }
 pre {
   font-family: var(--mono);
@@ -212,7 +213,7 @@ const REPORT_CSS = `
 .badge-needs_review { color: var(--c-review); background: #fdf1d7; }
 .badge-not_applicable { color: var(--c-na); background: #e8edf3; }
 .badge-infrastructure_error { color: var(--c-infra); background: #e9ecf8; }
-.finding-summary { flex: 1; min-width: 230px; overflow-wrap: anywhere; }
+.finding-summary { flex: 1; min-width: 230px; overflow-wrap: anywhere; unicode-bidi: isolate; }
 .finding-body { padding: 2px 18px 16px; border-top: 1px solid var(--line-soft); }
 .finding-body p { margin: 9px 0; overflow-wrap: anywhere; font-size: 14.5px; }
 .finding-body p strong { font-weight: 600; }
@@ -261,7 +262,7 @@ export function renderReportHtml(
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
-<title>hard-mode report: ${escapeHtml(result.runId)}</title>
+<title>${counts.confirmed} confirmed · hard-mode ${escapeHtml(result.scenarioId)} · ${escapeHtml(result.runId)}</title>
 <style>
 ${BASE_CSS}
 ${REPORT_CSS}

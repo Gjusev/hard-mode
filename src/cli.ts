@@ -1,10 +1,11 @@
 #!/usr/bin/env node
-// hard-mode CLI — the stable interface of the product.
-//   hard-mode run <config.json>        run one scenario, write evidence + report
-//   hard-mode compare <runA> <runB>    before/after report (same identity only)
-//   hard-mode scenarios                list scenarios and their parameters
-//   hard-mode validate <config.json>   check a config without running it
-import { readFileSync, writeFileSync } from "node:fs";
+// hard-mode CLI: the stable interface of the product.
+//   hard-mode run <config.json>            run one scenario, write evidence + report
+//   hard-mode compare <runDirA> <runDirB>  before/after report (same identity only)
+//   hard-mode runs [dir]                   list runs with status and counts
+//   hard-mode scenarios                    list scenarios and their parameters
+//   hard-mode validate <config.json>       check a config without running it
+import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { validateRunConfig } from "./config/validate.js";
@@ -23,7 +24,8 @@ const EXIT = {
 function readConfig(file: string): RunConfig {
   let raw: unknown;
   try {
-    raw = JSON.parse(readFileSync(file, "utf8"));
+    // Tolerate a UTF-8 BOM: editors on Windows write it silently.
+    raw = JSON.parse(readFileSync(file, "utf8").replace(/^﻿/, ""));
   } catch (err) {
     fail(`could not read config ${file}: ${err instanceof Error ? err.message : String(err)}`);
   }
@@ -52,8 +54,9 @@ function usage(): never {
   console.error(`hard-mode: exercise a local web app under difficult UI scenarios
 
 Usage:
-  ${self} run <config.json> [--out <runs-dir>]
+  ${self} run <config.json> [--out <runs-dir>] [--revision <label>]
   ${self} compare <runDirA> <runDirB>
+  ${self} runs [dir]
   ${self} scenarios
   ${self} validate <config.json>
 
@@ -105,6 +108,40 @@ async function main(): Promise<number> {
       const file = path.join(outDir, `${runA.runId}__vs__${runB.runId}.html`);
       writeFileSync(file, renderCompareHtml(runA, runB));
       console.log(`compare report: ${file}`);
+      return EXIT.ok;
+    }
+    case "runs": {
+      const [rootArg] = rest;
+      const root = path.resolve(rootArg ?? "runs");
+      let entries: string[];
+      try {
+        entries = readdirSync(root, { withFileTypes: true })
+          .filter((e) => e.isDirectory())
+          .map((e) => e.name)
+          .sort();
+      } catch (err) {
+        fail(`could not read runs directory ${root}: ${err instanceof Error ? err.message : String(err)}`);
+      }
+      if (entries.length === 0) {
+        console.log(`no runs under ${root}`);
+        return EXIT.ok;
+      }
+      console.log(`${root}`);
+      for (const name of entries) {
+        try {
+          const run = JSON.parse(readFileSync(path.join(root, name, "run.json"), "utf8"));
+          const counts = { confirmed: 0, needs_review: 0 };
+          for (const f of run.findings ?? []) {
+            if (f.type in counts) counts[f.type as keyof typeof counts]++;
+          }
+          console.log(
+            `  ${name}  ${String(run.scenarioId ?? "?").padEnd(15)} ${String(run.status ?? "?").padEnd(11)}` +
+            ` ${counts.confirmed} confirmed, ${counts.needs_review} review  rev=${run.config?.appRevision ?? "unlabeled"}`,
+          );
+        } catch {
+          console.log(`  ${name}  (no run.json; incomplete or not a hard-mode run)`);
+        }
+      }
       return EXIT.ok;
     }
     case "scenarios": {

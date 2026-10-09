@@ -28,6 +28,14 @@
       }
     });
 
+  // Client-side filter (same plumbing in both variants).
+  document.getElementById("filter").addEventListener("input", (event) => {
+    const needle = event.target.value.toLowerCase();
+    for (const li of document.querySelectorAll(".task-list li")) {
+      li.hidden = !li.textContent.toLowerCase().includes(needle);
+    }
+  });
+
   // Stats: no loading state, no error handling; on failure it stays on
   // "Loading…" forever (unhandled rejection).
   fetch("/api/stats")

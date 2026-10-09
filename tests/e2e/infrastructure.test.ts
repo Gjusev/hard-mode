@@ -64,11 +64,13 @@ test("scenario budgets abort cleanly and are labeled infrastructure", async () =
     journeyId: "j",
     steps: [
       { action: "navigate", url: "/" },
-      { action: "expect", condition: "visible", selector: ".tool", timeoutMs: 2000 },
+      // A step that can never succeed within the run's own budget: the
+      // scenario-level wall clock fires first.
+      { action: "expect", condition: "visible", selector: ".never-appears", timeoutMs: 30000 },
     ],
-    scenario: "slow-network",
-    params: { routes: [{ urlPattern: "**/api/x", mode: "delay", delayMs: 5000 }], settleMs: 8000 },
-    timeouts: { scenarioMs: 1500 },
+    scenario: "keyboard",
+    params: { focusTarget: ".tool", maxTabs: 2 },
+    timeouts: { scenarioMs: 4000 },
   }));
   const res = await runCli(["run", config, "--out", outRoot]);
   await server.close();

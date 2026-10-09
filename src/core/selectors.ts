@@ -11,7 +11,7 @@ export function resolveLocator(page: Page, selector: string): Locator {
       throw new Error(`invalid role selector: ${selector} (expected role:role[name="Accessible name"])`);
     }
     const role = m[1] as Parameters<Page["getByRole"]>[0];
-    return m[2] !== undefined ? page.getByRole(role, { name: m[2] }) : page.getByRole(role);
+    return page.getByRole(role, m[2] !== undefined ? { name: m[2] } : {});
   }
   if (selector.startsWith("text:")) {
     return page.getByText(selector.slice(5));

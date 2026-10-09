@@ -38,10 +38,15 @@ export async function runScenario(config: RunConfig, options: RunOptions = {}): 
   const journeyLog: JourneyLogEntry[] = [];
   const findings: Finding[] = [];
   let status: RunResult["status"] = "completed";
-  const scenarioMs = config.timeouts?.scenarioMs ?? 60000;
   const log = (message: string) => {
     journeyLog.push({ index: -1, action: "log", target: "", ok: true, detail: message, ms: 0 });
   };
+  const configuredMs = config.timeouts?.scenarioMs ?? 60000;
+  const minBudget = scenario.minBudgetMs?.(config.params ?? {}) ?? 0;
+  const scenarioMs = Math.max(configuredMs, minBudget);
+  if (minBudget > configuredMs) {
+    log(`scenario budget raised from ${configuredMs}ms to ${scenarioMs}ms: the configured delay window requires it`);
+  }
 
   const browser = await launchBrowser();
   let screenshot: string | undefined;

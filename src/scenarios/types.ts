@@ -28,6 +28,12 @@ export interface ScenarioDef {
   validate(params: ScenarioParams): string[];
   /** viewport override applied when creating the clean context */
   contextOptions(params: ScenarioParams, config: RunConfig): { viewport?: { width: number; height: number } };
+  /**
+   * Minimum scenario budget this scenario's params require. The runner uses
+   * max(configured scenarioMs, this) so a legitimately slow perturbation is
+   * never reported as an infrastructure failure. Optional.
+   */
+  minBudgetMs?(params: ScenarioParams): number;
   /** runs before the journey (route interception, …) */
   beforeJourney?(ctx: ScenarioContext): Promise<void>;
   /** runs after the journey: perturbation + observation */

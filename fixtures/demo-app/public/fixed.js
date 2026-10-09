@@ -31,6 +31,14 @@
       }
     });
 
+  // Client-side filter (same plumbing in both variants).
+  document.getElementById("filter").addEventListener("input", (event) => {
+    const needle = event.target.value.toLowerCase();
+    for (const li of document.querySelectorAll(".task-list li")) {
+      li.hidden = !li.textContent.toLowerCase().includes(needle);
+    }
+  });
+
   const body = document.querySelector(".stats-body");
   body.textContent = "";
   const skeleton = document.createElement("span");

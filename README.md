@@ -45,6 +45,7 @@ Start your app locally, then write a run config: a base URL, a short journey (na
 ```bash
 node dist/cli.js validate my-config.json   # check the config before running
 node dist/cli.js run my-config.json        # writes runs/<id>/report.html
+node dist/cli.js runs                      # list runs with status and counts
 node dist/cli.js scenarios                 # list scenarios and their params
 ```
 
@@ -69,7 +70,7 @@ npm test            # build plus the full suite (unit and browser e2e)
 npm run demo        # end-to-end demo on the synthetic app
 ```
 
-The suite covers every scenario against a broken control and a fixed control (no invented findings), reproduction from a saved config, comparison with identity checks, infrastructure-error classification, HTML escaping of hostile app text, keyboard operability and narrow-screen behavior of the report itself, and a second sample app with a completely different structure.
+The suite covers every scenario against a broken control and a fixed control (no invented findings), the full journey vocabulary (fill, press, expect hidden/text/url, role and text selectors, nth injections), multiple simultaneous route fixtures, automatic scenario budgets for long delays, reproduction from a saved config, comparison with identity checks, infrastructure-error classification, HTML escaping of hostile app text, an axe accessibility audit of the report itself, keyboard operability and narrow-screen behavior, and a second sample app with a completely different structure.
 
 The screenshots above come from the synthetic demo apps (`fixtures/demo-app`, `fixtures/second-app`), which ship with deliberately `broken` and `fixed` builds served from the same URLs. No real user data is involved anywhere.
 
