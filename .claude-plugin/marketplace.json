@@ -1,0 +1,15 @@
+{
+  "name": "hard-mode",
+  "description": "Browser evidence tools for testing local web apps under difficult UI conditions.",
+  "owner": {
+    "name": "Gjusev"
+  },
+  "plugins": [
+    {
+      "name": "hard-mode",
+      "source": ".",
+      "description": "Local Playwright runner + agent skill that tests a web app under difficult UI scenarios with reproducible evidence.",
+      "version": "0.1.0"
+    }
+  ]
+}

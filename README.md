@@ -81,6 +81,19 @@ Copy-paste snippets for each one, with an honest account of what is verified: [`
 
 `skills/hard-mode/` contains an installable skill that teaches an agent this workflow: pick a target with a verifiable goal, write and validate the config, run the CLI, read findings as signals rather than verdicts, reproduce a finding before proposing a fix, and rerun the identical config after the fix. Point your agent at the skill folder, or copy it wherever your agent looks for skills. The CLI is the stable interface; the skill needs no other plugins.
 
+### Claude Code plugin
+
+Claude Code users can also install the namespaced plugin from this repository's
+marketplace:
+
+```text
+/plugin marketplace add Gjusev/hard-mode
+/plugin install hard-mode@hard-mode
+```
+
+It exposes the same workflow as `/hard-mode:hard-mode`. The standalone skill
+above remains the lightest option when a plugin is not wanted.
+
 ## Development
 
 ```bash
