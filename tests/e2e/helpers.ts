@@ -55,12 +55,12 @@ export function loadJson(file: string): any {
 }
 
 export function newestRunDir(root: string): string {
-  const entries = readdirSync(root).map((name) => ({ name, full: path.join(root, name) }))
-    .filter((e) => statSync(e.full).isDirectory())
-    .sort((a, b) => a.name.localeCompare(b.name));
-  const last = entries[entries.length - 1];
+  const entries = readdirSync(root).map((name) => path.join(root, name))
+    .filter((full) => statSync(full).isDirectory())
+    .sort((a, b) => statSync(b).mtimeMs - statSync(a).mtimeMs);
+  const last = entries[0];
   if (!last) throw new Error(`no run directories under ${root}`);
-  return last.full;
+  return last;
 }
 
 /** Recursive content hash of a directory — used to prove the diagnostic

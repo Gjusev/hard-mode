@@ -44,3 +44,7 @@ node_modules/
 *.local.*
 .DS_Store
 Thumbs.db
+
+# Local agent tooling artifacts
+/.playwright-mcp/
+bash.exe.stackdump
