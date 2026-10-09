@@ -22,20 +22,22 @@ never a made-up score.
 
 1. A web app the user can run **locally** (dev server on localhost). Never
    point this at production, payment flows, or real user data.
-2. The hard-mode repository. If you are reading this inside the repo (at
-   `skills/hard-mode/`), the repo root is two levels up. If this skill was
-   **copied** into your environment, you additionally need the path to a
-   hard-mode checkout: check the `HARD_MODE_REPO` environment variable, or
-   ask the user. From that root, once:
+2. The CLI. Either route works:
+   - From npm (no checkout needed): `npx hard-mode <command>`
+   - From a repository checkout: `node <repo>/dist/cli.js <command>`
+     (once per checkout: `npm install && npm run build`). If you are reading
+     this inside the repo, its root is two levels up. If this skill was
+     **copied** into your environment, check `HARD_MODE_REPO` or ask the
+     user for the checkout path.
+   Either way, once per machine: `npx playwright install chromium`.
+3. Commands used throughout this skill (substitute your CLI route):
    ```
-   npm install && npm run build && npx playwright install chromium
+   hard-mode run <config.json>
+   hard-mode compare <runDirA> <runDirB>
+   hard-mode scenarios      # list scenarios + parameters
    ```
-3. The CLI is the stable interface (`<repo>` is the checkout path):
-   ```
-   node <repo>/dist/cli.js run <config.json>
-   node <repo>/dist/cli.js compare <runDirA> <runDirB>
-   node <repo>/dist/cli.js scenarios      # list scenarios + parameters
-   ```
+4. Harness-specific setup snippets (Claude Code, Cursor, Codex, Gemini CLI,
+   opencode, plain prompt): [references/harnesses.md](references/harnesses.md).
 
 ## Flow
 

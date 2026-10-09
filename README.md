@@ -58,6 +58,25 @@ node dist/cli.js compare runs/<before> runs/<after>   # exit 3 if identities dif
 
 Exit codes: `0` run completed, `1` invalid usage or config, `2` infrastructure error such as an unreachable server, `3` compare refused.
 
+Since the package is on npm, the CLI also works without cloning anything (one-time per machine: `npx playwright install chromium`):
+
+```bash
+npx hard-mode scenarios
+npx hard-mode run my-config.json
+```
+
+## Using it from any harness
+
+The CLI is the stable interface, so every agent that can run shell commands can drive hard-mode. What varies is how the agent learns the workflow:
+
+| harness | how |
+| ------- | --- |
+| Claude Code (verified) | copy `skills/hard-mode/` into `.claude/skills/`; the skill carries the whole workflow |
+| any terminal, human or CI (verified) | the `npx hard-mode ...` commands above |
+| Cursor, Codex CLI, Gemini CLI, opencode (untested conventions) | point the harness's rule file (`AGENTS.md`, `.cursor/rules/`, `GEMINI.md`) at the skill, or paste the plain-contract prompt |
+
+Copy-paste snippets for each one, with an honest account of what is verified: [`skills/hard-mode/references/harnesses.md`](skills/hard-mode/references/harnesses.md).
+
 ## The agent skill
 
 `skills/hard-mode/` contains an installable skill that teaches an agent this workflow: pick a target with a verifiable goal, write and validate the config, run the CLI, read findings as signals rather than verdicts, reproduce a finding before proposing a fix, and rerun the identical config after the fix. Point your agent at the skill folder, or copy it wherever your agent looks for skills. The CLI is the stable interface; the skill needs no other plugins.
