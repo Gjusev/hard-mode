@@ -4,7 +4,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import type { Finding, RunResult } from "../config/types.js";
-import { escapeHtml } from "./html.js";
+import { BASE_CSS, escapeHtml } from "./html.js";
 
 export interface ComparisonFinding {
   id: string;
@@ -50,6 +50,8 @@ export function renderCompareHtml(a: RunResult, b: RunResult): string {
   const resolved = rows.filter((r) => r.verdict === "resolved").length;
   const unresolved = rows.filter((r) => r.verdict === "unresolved").length;
   const created = rows.filter((r) => r.verdict === "new").length;
+  const revA = escapeHtml(a.config.appRevision ?? "unlabeled");
+  const revB = escapeHtml(b.config.appRevision ?? "unlabeled");
   const aShot = escapeHtml(path.posix.join(path.basename(a.runDir), "evidence", "final.png"));
   const bShot = escapeHtml(path.posix.join(path.basename(b.runDir), "evidence", "final.png"));
   return `<!doctype html>
@@ -57,20 +59,22 @@ export function renderCompareHtml(a: RunResult, b: RunResult): string {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>hard-mode compare — ${escapeHtml(a.runId)} vs ${escapeHtml(b.runId)}</title>
+<meta name="color-scheme" content="light">
+<title>hard-mode compare: ${escapeHtml(a.runId)} vs ${escapeHtml(b.runId)}</title>
 <style>
+${BASE_CSS}
 ${COMPARE_CSS}
 </style>
 </head>
 <body>
 <header class="run-header">
   <p class="kicker">hard-mode · before / after</p>
-  <h1>${escapeHtml(a.scenarioId)}</h1>
-  <p>Same identity <code>${escapeHtml(a.identityHash.slice(0, 16))}…</code> — journey, scenario, params,
-     viewport, timeouts and expectations all match. Only the app differs:</p>
+  <h1>Scenario ${escapeHtml(a.scenarioId)}, same inputs</h1>
+  <p class="meta-note">Both runs share identity <code>${escapeHtml(a.identityHash.slice(0, 16))}…</code>:
+    journey, scenario, params, viewport, timeouts and expectations all match. Only the app differs.</p>
   <dl class="meta">
-    <div><dt>Before</dt><dd>${escapeHtml(a.runId)} · revision ${escapeHtml(a.config.appRevision ?? "unlabeled")}</dd></div>
-    <div><dt>After</dt><dd>${escapeHtml(b.runId)} · revision ${escapeHtml(b.config.appRevision ?? "unlabeled")}</dd></div>
+    <div><dt>Before</dt><dd>${escapeHtml(a.runId)} · revision <code>${revA}</code></dd></div>
+    <div><dt>After</dt><dd>${escapeHtml(b.runId)} · revision <code>${revB}</code></dd></div>
   </dl>
 </header>
 <main>
@@ -78,16 +82,16 @@ ${COMPARE_CSS}
     <h2 id="shots-title">Same scenario, same inputs</h2>
     <div class="shots">
       <figure>
-        <figcaption>Before — ${escapeHtml(a.config.appRevision ?? "unlabeled")}</figcaption>
-        <img src="${aShot}" alt="Before: screenshot of ${escapeHtml(a.runId)}">
+        <figcaption>Before · revision ${revA}</figcaption>
+        <img src="${aShot}" alt="Before (${revA}): screenshot of run ${escapeHtml(a.runId)}" loading="lazy">
       </figure>
       <figure>
-        <figcaption>After — ${escapeHtml(b.config.appRevision ?? "unlabeled")}</figcaption>
-        <img src="${bShot}" alt="After: screenshot of ${escapeHtml(b.runId)}">
+        <figcaption>After · revision ${revB}</figcaption>
+        <img src="${bShot}" alt="After (${revB}): screenshot of run ${escapeHtml(b.runId)}" loading="lazy">
       </figure>
     </div>
-    <p class="meta-note">Aligned side by side, same declared viewport and inputs. A pixel difference alone
-       proves nothing — read the findings below, which state what was measured.</p>
+    <p class="meta-note-light">Aligned side by side at the same declared viewport and inputs. A pixel
+       difference alone proves nothing; read the verdicts below, which state what was measured.</p>
   </section>
   <section aria-labelledby="verdicts-title">
     <h2 id="verdicts-title">Findings</h2>
@@ -106,11 +110,15 @@ ${rows.map((r) => compareRow(r)).join("\n")}
 }
 
 function compareRow(r: ComparisonFinding): string {
-  const verdictLabel = r.verdict === "resolved" ? "✓ resolved" : r.verdict === "new" ? "＋ new" : "≠ still present";
-  const before = r.before ? `${escapeHtml(r.before.type)} — ${escapeHtml(r.before.summary)}` : "(absent)";
-  const after = r.after ? `${escapeHtml(r.after.type)} — ${escapeHtml(r.after.summary)}` : "(absent)";
+  const meta = r.verdict === "resolved"
+    ? { icon: "✓", label: "resolved" }
+    : r.verdict === "new"
+      ? { icon: "＋", label: "new in after-run" }
+      : { icon: "≠", label: "still present" };
+  const before = r.before ? `${escapeHtml(r.before.type)}: ${escapeHtml(r.before.summary)}` : "(absent in the before-run)";
+  const after = r.after ? `${escapeHtml(r.after.type)}: ${escapeHtml(r.after.summary)}` : "(gone in the after-run)";
   return `      <li class="row verdict-${escapeHtml(r.verdict)}">
-        <p class="verdict">${verdictLabel} <code>${escapeHtml(r.id)}</code></p>
+        <p class="verdict"><span class="badge">${meta.icon} ${meta.label}</span> <code>${escapeHtml(r.id)}</code></p>
         <div class="cols">
           <p><strong>Before:</strong> ${before}</p>
           <p><strong>After:</strong> ${after}</p>
@@ -119,29 +127,23 @@ function compareRow(r: ComparisonFinding): string {
 }
 
 const COMPARE_CSS = `
-* { box-sizing: border-box; }
-body { margin: 0; font-family: system-ui, sans-serif; line-height: 1.5; color: #1c2430; background: #f5f7fa; }
-.run-header { background: #10233b; color: #fff; padding: 20px clamp(16px, 4vw, 40px); }
-.run-header h1 { margin: 4px 0 8px; }
-.kicker { margin: 0; text-transform: uppercase; letter-spacing: 0.08em; font-size: 12px; color: #b9c9dd; }
-.meta { display: grid; gap: 8px; margin: 12px 0 0; }
-.meta div { display: flex; gap: 8px; }
-.meta dt { color: #b9c9dd; }
-.meta dd { margin: 0; overflow-wrap: anywhere; }
-main { padding: 20px clamp(16px, 4vw, 40px); max-width: 1200px; }
-h2 { font-size: 20px; margin: 28px 0 12px; }
+.meta-note code { background: rgba(233, 240, 248, 0.14); color: #d7e3f0; }
+.meta-note-light { color: var(--ink-2); font-size: 13px; max-width: 72ch; }
 .shots { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
-.shots figure { margin: 0; background: #fff; border: 1px solid #d7dee8; border-radius: 8px; padding: 12px; }
-.shots figcaption { font-weight: 700; margin-bottom: 8px; }
-.shots img { width: 100%; height: auto; border: 1px solid #e6ecf3; border-radius: 4px; }
-.tally { display: flex; flex-wrap: wrap; gap: 8px; }
-.pill { border: 1px solid #52627a; border-radius: 999px; padding: 2px 12px; font-size: 14px; }
+.shots figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px; box-shadow: var(--shadow); }
+.shots figcaption { font-weight: 600; font-size: 14px; margin-bottom: 8px; }
+.shots img { width: 100%; height: auto; border: 1px solid var(--line-soft); border-radius: 6px; }
 .rows { list-style: none; padding: 0; display: grid; gap: 12px; }
-.row { background: #fff; border: 1px solid #d7dee8; border-radius: 8px; padding: 12px 16px; }
-.verdict { font-weight: 700; margin: 0 0 4px; }
-.verdict code { font-weight: 400; overflow-wrap: anywhere; }
-.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 8px 24px; margin: 0; }
-.cols p { margin: 4px 0; overflow-wrap: anywhere; }
-.meta-note { color: #52627a; font-size: 13px; }
-code { background: #eef2f7; border-radius: 4px; padding: 1px 5px; }
+.row { background: var(--surface); border: 1px solid var(--line); border-left-width: 3px; border-radius: 10px; padding: 13px 16px; box-shadow: var(--shadow); }
+.verdict-resolved { border-left-color: #2c6e49; }
+.verdict-unresolved { border-left-color: var(--c-confirm); }
+.verdict-new { border-left-color: var(--c-review); }
+.verdict { font-weight: 600; margin: 0 0 6px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.verdict .badge { border-color: currentColor; }
+.verdict-resolved .badge { color: #2c6e49; background: #e9f3ed; }
+.verdict-unresolved .badge { color: var(--c-confirm); background: #fbeae9; }
+.verdict-new .badge { color: var(--c-review); background: #fdf1d7; }
+.verdict code { font-weight: 400; font-size: 12.5px; color: var(--ink-2); }
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 6px 24px; margin: 0; }
+.cols p { margin: 4px 0; overflow-wrap: anywhere; font-size: 14px; }
 `;

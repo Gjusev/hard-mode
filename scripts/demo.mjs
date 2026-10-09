@@ -42,16 +42,16 @@ const dirFrom = (stdout) => {
   return m[1].trim();
 };
 
-console.log(`\n— BEFORE (broken): ${scenario} —`);
+console.log(`\n== BEFORE (broken): ${scenario} ==`);
 const beforeDir = dirFrom(await runCli(["run", liveConfig, "--out", outRoot, "--revision", "broken"]));
 
-console.log("\n— applying the fix (variant: fixed), same config, same inputs —");
+console.log("\n== applying the fix (variant: fixed), same config, same inputs ==");
 server.setVariant("fixed");
 
-console.log(`\n— AFTER (fixed): ${scenario} —`);
+console.log(`\n== AFTER (fixed): ${scenario} ==`);
 const afterDir = dirFrom(await runCli(["run", liveConfig, "--out", outRoot, "--revision", "fixed"]));
 
-console.log("\n— COMPARE —");
+console.log("\n== COMPARE ==");
 await runCli(["compare", beforeDir, afterDir]);
 
 await server.close();

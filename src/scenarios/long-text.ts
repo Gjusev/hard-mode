@@ -29,7 +29,7 @@ export const longTextScenario: ScenarioDef = {
     "Replaces the text of each declared selector with deterministic long text (derived from the seed) " +
     "after the journey completes, then measures geometry on those elements only. No other DOM changes.",
   paramsDoc: {
-    injections: "required. Array of { selector, nth?, text? } — the only elements touched",
+    injections: "required. Array of { selector, nth?, text? }: the only elements touched",
     "injections[].text": "optional explicit text; default is generated deterministically from the seed",
     seed: "optional integer seed for the generated text (default 42)",
     overflowTolerancePx: "optional pixel tolerance for geometry checks (default 1)",

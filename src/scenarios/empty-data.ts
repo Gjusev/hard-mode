@@ -13,7 +13,7 @@ export const emptyDataScenario: ScenarioDef = {
     "collection for that API). Only the declared patterns are touched; every other request passes " +
     "through untouched. After the journey, declared content regions are inspected for empty-without-empty-state.",
   paramsDoc: {
-    routes: "required. [{ urlPattern, mode: \"fulfill\", body, contentType?, label? }] — the agreed empty shape",
+    routes: "required. [{ urlPattern, mode: \"fulfill\", body, contentType?, label? }]: the agreed empty shape",
     contentRegions: "optional. [{ selector, emptyIndicator? }] regions inspected for blank states",
     settleMs: "optional ms to wait after the journey before observing (default 300)",
   },

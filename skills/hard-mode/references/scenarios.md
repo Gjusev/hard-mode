@@ -20,7 +20,7 @@ measures geometry on those elements.
 }
 ```
 
-- `injections[].text` — explicit text instead of the generated one.
+- `injections[].text`: explicit text instead of the generated one.
 - Detection: an element is **confirmed** when its content is clipped
   (scrollWidth > clientWidth with non-visible overflow) or extends past the
   viewport edge. Document-wide horizontal scroll without a provable culprit is
@@ -43,8 +43,8 @@ the root font-size via inline style. `deviceScaleFactor` stays at 1.
 ## empty-data
 
 Intercepts **only** the declared route patterns and fulfills them with the
-configured body. The body must be a valid empty shape for that API's contract
-— you decide it from the app's code or API docs; never guess a shape.
+configured body. The body must be a valid empty shape for that API's contract;
+you decide it from the app's code or API docs. Never guess a shape.
 
 ```json
 "scenario": "empty-data",
@@ -100,14 +100,14 @@ element after each press. The declared target must receive focus.
 
 - Target never focused → confirmed (the full focus trace is in the finding).
 - Target focused but no visible focus indicator detected (outline, box-shadow
-  or border > 0 — heuristic) → needs_review.
+  or border > 0, heuristic) → needs_review.
 - Focus staying inside a modal is not treated as a bug.
 
 ## Exit codes of the CLI
 
 | code | meaning |
 | ---- | ------- |
-| 0 | run completed (findings may exist — they are results, not crashes) |
+| 0 | run completed (findings may exist; they are results, not crashes) |
 | 1 | invalid usage or config |
 | 2 | infrastructure error (server unreachable, budget exceeded) |
 | 3 | compare refused: run identities differ |

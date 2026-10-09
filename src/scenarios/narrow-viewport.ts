@@ -11,12 +11,12 @@ export const narrowViewportScenario: ScenarioDef = {
   summary:
     "Creates the context with a narrow viewport (params.viewportWidth/viewportHeight) and, after the " +
     "journey, multiplies the root element's font-size by params.textScale via an inline style " +
-    "(layout-level typographic enlargement — not browser zoom, not deviceScaleFactor). Then measures " +
+    "(layout-level typographic enlargement, not browser zoom, not deviceScaleFactor). Then measures " +
     "document-level horizontal overflow and the geometry of any declared injections selectors.",
   paramsDoc: {
     viewportWidth: "optional; narrow viewport width in px (default 360)",
     viewportHeight: "optional; viewport height in px (default 800)",
-    textScale: "optional; root font-size multiplier (default 1.5, range 1–3)",
+    textScale: "optional; root font-size multiplier (default 1.5, range 1 to 3)",
     injections: "optional selectors additionally measured for clipping after enlargement",
     overflowTolerancePx: "optional pixel tolerance (default 1)",
   },

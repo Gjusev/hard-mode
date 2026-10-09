@@ -49,7 +49,7 @@ function fail(message: string): never {
 
 function usage(): never {
   const self = path.basename(process.argv[1] ?? "hard-mode");
-  console.error(`hard-mode — exercise a local web app under difficult UI scenarios
+  console.error(`hard-mode: exercise a local web app under difficult UI scenarios
 
 Usage:
   ${self} run <config.json> [--out <runs-dir>]
@@ -109,7 +109,7 @@ async function main(): Promise<number> {
     }
     case "scenarios": {
       for (const s of SCENARIOS) {
-        console.log(`\n${s.id} — ${s.title}`);
+        console.log(`\n${s.id}: ${s.title}`);
         console.log(`  ${s.summary}`);
         for (const [param, doc] of Object.entries(s.paramsDoc)) {
           console.log(`    ${param}: ${doc}`);

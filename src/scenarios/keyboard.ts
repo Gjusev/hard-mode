@@ -15,7 +15,7 @@ export const keyboardScenario: ScenarioDef = {
     "inside a modal is not treated as a bug.",
   paramsDoc: {
     focusTarget: "required. Selector of the control that must be reachable by keyboard",
-    maxTabs: "optional Tab budget (default 12, range 1–100)",
+    maxTabs: "optional Tab budget (default 12, range 1 to 100)",
   },
   validate(params) {
     const errors: string[] = [];

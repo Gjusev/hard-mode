@@ -22,11 +22,11 @@ the comparison identity is the hash of everything below except `runId`,
 }
 ```
 
-- `appRevision` — free label for what the app was when the run happened.
+- `appRevision`: free label for what the app was when the run happened.
   Compare runs show it for before/after; changing it does not change identity.
-- `viewport` — the run's viewport. `deviceScaleFactor` is not configurable on
+- `viewport`: the run's viewport. `deviceScaleFactor` is not configurable on
   purpose; every scaling perturbation is described by the scenario itself.
-- `capture.trace` — Playwright trace (view with `npx playwright show-trace`).
+- `capture.trace`: Playwright trace (view with `npx playwright show-trace`).
 
 ## Journey steps
 
@@ -75,7 +75,7 @@ declared the intended behavior, the run measured it and it did not happen.
 
 - `journeyId`: lowercase slug (`[a-z0-9-]`), stable across runs of the same
   journey (it feeds the comparison identity).
-- Unknown keys inside `params` are rejected — copy params from the scenario
+- Unknown keys inside `params` are rejected; copy params from the scenario
   reference, do not invent them.
 - Route fixtures for empty-data require an explicit `body` (the agreed empty
   shape); `fail` routes require a 4xx/5xx `status`.
