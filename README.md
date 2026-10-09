@@ -12,6 +12,25 @@ hard-mode is a local testing tool for web apps. A Playwright runner drives your 
 
 Everything runs on your machine. The runner never edits your app's code and sends nothing anywhere.
 
+## One configuration, two states
+
+```mermaid
+flowchart LR
+    A["your local app"] --> B["one journey + one scenario"]
+    B --> C["run before the fix"]
+    C --> D["screenshots · geometry · focus trace"]
+    D --> E["fix the app"]
+    E --> F["rerun the identical configuration"]
+    F --> G["evidence-backed comparison"]
+```
+
+### Before → after
+
+| Before using Hard Mode | After the same scenario is rerun |
+| --- | --- |
+| “The page looks fine on my screen.” | A report records that the long title clipped, where it clipped, and the screenshot that proves it. |
+| A `div` styled like an Export button looks clickable. | The keyboard trace shows the control is unreachable; after the fix the same trace resolves the finding. |
+
 ![Report gallery: two confirmed findings on the synthetic demo app, each with what was expected, what was observed, and how it was measured](assets/report-gallery.png)
 
 That is a real report from `npm run demo`: a synthetic app whose header clips long titles and whose "Export" control is a `div`, so keyboard users can never reach it. The report says what was measured, not what to feel about it. Fix the app, rerun the identical config, and the comparison tells you what changed:
