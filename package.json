@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "description": "Local browser runner and agent skill that exercise a web app under repeatable UI stress scenarios and produce visual evidence.",
   "license": "MIT",
-  "private": true,
   "type": "module",
   "files": [
     "dist",
@@ -25,7 +24,8 @@
     "test": "npm run build && playwright test",
     "test:unit": "playwright test --project unit",
     "test:e2e": "npm run build && playwright test --project e2e",
-    "demo": "node scripts/demo.mjs"
+    "demo": "node scripts/demo.mjs",
+    "prepack": "npm run build"
   },
   "dependencies": {
     "playwright": "^1.50.0"
@@ -45,5 +45,8 @@
     "accessibility",
     "chaos",
     "agent-skills"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
