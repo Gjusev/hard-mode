@@ -79,7 +79,7 @@ pre {
 pre code { background: transparent; color: inherit; }
 a { color: var(--accent-deep); text-underline-offset: 2px; }
 a:hover { color: var(--accent); }
-a:focus-visible, summary:focus-visible, button:focus-visible {
+a:focus-visible, summary:focus-visible, button:focus-visible, pre:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 2px;
   border-radius: 4px;
@@ -315,9 +315,9 @@ ${journeyLog.map((e) => e.action === "log"
   <section aria-labelledby="repro-title">
     <h2 id="repro-title">Reproduce</h2>
     <p>From the directory containing this run:</p>
-    <pre><code>hard-mode run ${escapeHtml(result.reproduceConfigPath.split("/").pop())}</code></pre>
+    <pre tabindex="0"><code>hard-mode run ${escapeHtml(result.reproduceConfigPath.split("/").pop())}</code></pre>
     <p>or with an explicit path to this repository's CLI:</p>
-    <pre><code>node &lt;repo&gt;/dist/cli.js run &lt;this-run&gt;/${escapeHtml(result.reproduceConfigPath.split("/").pop())}</code></pre>
+    <pre tabindex="0"><code>node &lt;repo&gt;/dist/cli.js run &lt;this-run&gt;/${escapeHtml(result.reproduceConfigPath.split("/").pop())}</code></pre>
   </section>
 </main>
 </body>
@@ -338,7 +338,7 @@ function findingCard(finding: Finding, index: number): string {
             ${finding.method ? `<p><strong>Method:</strong> ${escapeHtml(finding.method)}</p>` : ""}
             <p><strong>Target:</strong> <code>${escapeHtml(finding.target)}</code> · <strong>ID</strong> <code>${escapeHtml(finding.id)}</code></p>
             ${finding.evidence.screenshot ? `<a href="${escapeHtml(finding.evidence.screenshot)}"><img class="shot" src="${escapeHtml(finding.evidence.screenshot)}" alt="Screenshot for finding ${escapeHtml(finding.id)}" loading="lazy"></a>` : ""}
-            ${finding.evidence.details ? `<details class="raw-details"><summary>Raw details</summary><pre>${escapeHtml(JSON.stringify(finding.evidence.details, null, 2))}</pre></details>` : ""}
+            ${finding.evidence.details ? `<details class="raw-details"><summary>Raw details</summary><pre tabindex="0">${escapeHtml(JSON.stringify(finding.evidence.details, null, 2))}</pre></details>` : ""}
             ${finding.limitations?.length ? `<ul class="notes">${finding.limitations.map((l) => `<li>${escapeHtml(l)}</li>`).join("")}</ul>` : ""}
             <p class="repro">Reproduce: <code>hard-mode run ${escapeHtml(finding.reproduce.configPath)}</code></p>
           </div>

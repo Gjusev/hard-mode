@@ -22,12 +22,15 @@ never a made-up score.
 
 1. A web app the user can run **locally** (dev server on localhost). Never
    point this at production, payment flows, or real user data.
-2. The hard-mode repository (the repo containing this `skills/hard-mode/`
-   folder). From its root, once:
+2. The hard-mode repository. If you are reading this inside the repo (at
+   `skills/hard-mode/`), the repo root is two levels up. If this skill was
+   **copied** into your environment, you additionally need the path to a
+   hard-mode checkout: check the `HARD_MODE_REPO` environment variable, or
+   ask the user. From that root, once:
    ```
    npm install && npm run build && npx playwright install chromium
    ```
-3. The CLI is the stable interface:
+3. The CLI is the stable interface (`<repo>` is the checkout path):
    ```
    node <repo>/dist/cli.js run <config.json>
    node <repo>/dist/cli.js compare <runDirA> <runDirB>

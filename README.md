@@ -68,6 +68,7 @@ Exit codes: `0` run completed, `1` invalid usage or config, `2` infrastructure e
 npm run typecheck   # TypeScript for src and tests
 npm test            # build plus the full suite (unit and browser e2e)
 npm run demo        # end-to-end demo on the synthetic app
+node scripts/ci-dry-run.mjs   # run the CI steps on a pristine checkout
 ```
 
 The suite covers every scenario against a broken control and a fixed control (no invented findings), the full journey vocabulary (fill, press, expect hidden/text/url, role and text selectors, nth injections), multiple simultaneous route fixtures, automatic scenario budgets for long delays, reproduction from a saved config, comparison with identity checks, infrastructure-error classification, HTML escaping of hostile app text, an axe accessibility audit of the report itself, keyboard operability and narrow-screen behavior, and a second sample app with a completely different structure.
